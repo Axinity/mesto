@@ -7,3 +7,9 @@
   position: relative;
   width: 430px;
 }
+
+@media (max-width: 670px) {
+  .popup__container {
+    width: 282px;
+  }
+}

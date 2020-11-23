@@ -10,3 +10,17 @@
   grid-area: title;
   max-width: 500px;
 }
+
+@media (max-width: 920px) {
+  .profile__title {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 420px) {
+  .profile__title {
+    font-size: 27px;
+    line-height: 33px;
+    text-align: center;
+  }
+}

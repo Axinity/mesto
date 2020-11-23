@@ -1,30 +1,32 @@
-const headerButtonNode = document.querySelector('.header__button');
-const popupNode = document.querySelector('.popup');
-const popupCloseButtonNode = document.querySelector('.popup__close-button');
+let editbutton = document.querySelector('.profile__edit-button');
+let closebutton = document.querySelector('.popup__close-button');
+let popup = document.querySelector('.popup');
+let name = document.getElementById('name');
+let description = document.getElementById('description');
+let popupName = document.getElementById('popup-name');
+let popupDescription = document.getElementById('popup-description');
+let popupContainer = document.querySelector('.popup__container');
 
-const leadTitleNode = document.querySelector('.lead__title');
-const formButtonNode = document.querySelector('.form__button');
-
-headerButtonNode.addEventListener('click', togglePopupVisibility);
-popupCloseButtonNode.addEventListener('click', togglePopupVisibility);
-
-function togglePopupVisibility() {
-    popupNode.classList.toggle('popup_visible');
+function openform() {
+    popupName.setAttribute('value', name.innerText);
+    popupDescription.setAttribute('value', description.innerText);
+    popup.classList.add('popup_opened');
 }
 
-const forms = [...document.querySelectorAll('.form')];
-
-forms.forEach((formNode) => {
-    formNode.addEventListener('submit', handleFormSubmit);
-});
-
-function handleFormSubmit(event) {
-    console.log(event.currentTarget);
-    event.preventDefault();
-    const formInputNode = event.currentTarget.querySelector('.form__input');
-    leadTitleNode.textContent = formInputNode.value;
+function closeform() {
+    popup.classList.remove('popup_opened');
 }
 
-function f2() {
-    console.log(formInputNode);
+editbutton.addEventListener ('click', openform);
+closebutton.addEventListener ('click', closeform);
+
+function formSubmitHandler (evt) {
+    evt.preventDefault();
+    let nameValue = document.getElementById('popup-name').value;
+    let descriptionValue = document.getElementById('popup-description').value;
+    name.textContent = nameValue;
+    description.textContent = descriptionValue;
+    closeform();
 }
+
+popupContainer.addEventListener('submit', formSubmitHandler);

@@ -17,3 +17,9 @@
 .popup__text:focus {
   outline: none;
 }
+
+@media (max-width: 670px) {
+  .popup__text {
+    width: 238px;
+  }
+}

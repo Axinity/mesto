@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./normalize.css">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./pages/index.css">
     <title>Mesto Russia</title>
 </head>
 <body>
     <div class="page">
         <header class="header">
-            <img class="header__logo" src="./images/vector.png">
+            <img class="header__logo" src="./images/vector.png" alt="Место логотип">
         </header>
         <main class="main">
             <section class="profile">
-                <img class="profile__avatar" src="./images/avatar.png">
+                <img class="profile__avatar" src="./images/avatar.png" alt="Фото Жак-Ив Кусто">
                 <div class="profile__info">
                     <h1 class="profile__title" id="name">Жак-Ив Кусто</h1>
                     <button class="profile__edit-button"></button>
@@ -26,51 +25,45 @@
             <section>
                 <ul class="elements">
                 <li class="elements__item">
-                    <img class="elements__photo" src="./images/karachaevo.png">
+                    <img class="elements__photo" src="./images/karachaevo.png" alt="Карачаево">
                     <div class="elements__info">
                         <h2 class="elements__title">Карачаевск</h2>
-                        <button class="elements__like-button">                   
-                        </button>
+                        <button class="elements__like-button"></button>
                     </div>
                 </li>
                 <li class="elements__item">
-                    <img class="elements__photo" src="./images/gora-elbrys.png">
+                    <img class="elements__photo" src="./images/gora-elbrys.png" alt="Гора Эльбрус">
                     <div class="elements__info">
                         <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button class="elements__like-button">                          
-                        </button>
+                        <button class="elements__like-button"></button>
                     </div>
                 </li>
                 <li class="elements__item">
-                    <img class="elements__photo" src="./images/dombai1.png">
+                    <img class="elements__photo" src="./images/dombai1.png" alt="Домбаи">
                     <div class="elements__info">
                         <h2 class="elements__title">Домбай</h2>
-                        <button class="elements__like-button">
-                        </button>
+                        <button class="elements__like-button"></button>
                     </div>
                 </li>
                 <li class="elements__item">
-                    <img class="elements__photo" src="./images/gora-elbrys2.png">
+                    <img class="elements__photo" src="./images/gora-elbrys2.png" alt="Гора Эльбрус">
                     <div class="elements__info">
                         <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button class="elements__like-button">                  
-                        </button>
+                        <button class="elements__like-button"></button>
                     </div>
                 </li>
                 <li class="elements__item">
-                    <img class="elements__photo" src="./images/dombai2.png">
+                    <img class="elements__photo" src="./images/dombai2.png" alt="Домбаи">
                     <div class="elements__info">
                         <h2 class="elements__title">Домбай</h2>
-                        <button class="elements__like-button">                        
-                        </button>
+                        <button class="elements__like-button"></button>
                     </div>
                 </li>
                 <li class="elements__item">
-                    <img class="elements__photo" src="./images/karahaevo-ch.png">
+                    <img class="elements__photo" src="./images/karahaevo-ch.png" alt="Карачаево-Черкесск">
                     <div class="elements__info">
                         <h2 class="elements__title">Карачаево-Черкесск</h2>
-                        <button class="elements__like-button">                        
-                        </button>
+                        <button class="elements__like-button"></button>
                     </div>
                 </li>
                 </ul>
@@ -86,15 +79,15 @@
                 <input type="text" class="popup__text" id="popup-name">
                 <input type="text" class="popup__text" id="popup-description"> 
                 <button type="submit" class="popup__button">Сохранить</button>
-                <button type="button" class="popup__close-button">
-                    <img class="form__close-button-picture" src="./images/close_icon.svg" alt="Кнопка Закрыть">
+                <button class="popup__close-button">
+                    <!-- <img class="form__close-button-picture" src="./images/close_icon.svg" alt="Кнопка Закрыть"> -->
                 </button>
             </form> 
         </section>
     </div>
 
     
-    <script src="./script.js"></script>
+    <script src="./index.js"></script>
     
 </body>
 </html>

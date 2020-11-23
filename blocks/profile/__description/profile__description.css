@@ -10,3 +10,22 @@
   grid-area: description;
   max-width: 500px;
 }
+
+@media (max-width: 920px) {
+  .profile__description {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 670px) {
+  .profile__description {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .profile__description {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
