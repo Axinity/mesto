@@ -1,0 +1,14 @@
+.popup__close-button {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  transition: opacity 0.5s ease;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.popup__close-button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}

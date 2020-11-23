@@ -1,0 +1,10 @@
+.profile__info {
+  display: grid;
+  row-gap: 16px;
+  column-gap: 18px;
+  grid-template-areas:
+    "title button"
+    "description description";
+  align-items: flex-end;
+  margin: auto auto auto 0;
+}

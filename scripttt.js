@@ -7,26 +7,29 @@ let popupName = document.getElementById('popup-name');
 let popupDescription = document.getElementById('popup-description');
 let popupContainer = document.querySelector('.popup__container');
 
-function openform() {
+function openForm() {
     popupName.setAttribute('value', name.innerText);
     popupDescription.setAttribute('value', description.innerText);
     popup.classList.add('popup_opened');
 }
 
-function closeform() {
+function closeForm() {
     popup.classList.remove('popup_opened');
+    popupContainer.reset();
 }
 
-editbutton.addEventListener ('click', openform);
-closebutton.addEventListener ('click', closeform);
+editbutton.addEventListener('click', openForm);
+closebutton.addEventListener('click', closeForm);
+
 
 function formSubmitHandler (evt) {
     evt.preventDefault();
     let nameValue = document.getElementById('popup-name').value;
     let descriptionValue = document.getElementById('popup-description').value;
-    name.textContent = nameValue;
-    description.textContent = descriptionValue;
-    closeform();
+    name.innerText = nameValue;
+    profession.innerText = descriptionValue;
+    closeForm();
+    popupName.setAttribute('value', name.innerText);
+    popupProfession.setAttribute('value', profession.innerText);
 }
-
 popupContainer.addEventListener('submit', formSubmitHandler);

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "Inter";
   src: url(./fonts/Inter-Regular.woff2) format("woff2"),
-      url(./fonts/Inter-Regular.woff) format("woff"),
-      url(./fonts/Inter-Regular.ttf) format("truetype");
+    url(./fonts/Inter-Regular.woff) format("woff"),
+    url(./fonts/Inter-Regular.ttf) format("truetype");
   font-weight: normal;
 }
 
@@ -25,7 +25,7 @@
 .header {
   max-width: 880px;
   margin: 0 auto;
-  border-bottom: 1px solid rgb(84, 84, 84, .7);;
+  border-bottom: 1px solid rgb(84, 84, 84, 0.7);
   margin-bottom: 40px;
 }
 
@@ -44,25 +44,32 @@
   justify-content: space-between;
 }
 
-.profile-box {
-  display: flex;
-}
-
 .profile__avatar {
   margin: 0 30px 0 0;
 }
 
 .profile__info {
-  position: relative;
-  align-self: center;
+  display: grid;
+  row-gap: 16px;
+  column-gap: 18px;
+  grid-template-areas:
+    "title button"
+    "description description";
+  align-items: flex-end;
+  margin: auto auto auto 0;
 }
 
 .profile__title {
-  margin: 0 18px 7px 0;
+  margin: 0;
   font-style: normal;
   font-weight: 500;
   font-size: 42px;
   line-height: 48px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  grid-area: title;
+  max-width: 500px;
 }
 
 .profile__description {
@@ -71,19 +78,23 @@
   font-weight: normal;
   font-size: 18px;
   line-height: 22px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  grid-area: description;
+  max-width: 500px;
 }
 
 .profile__edit-button {
-  position: absolute;
-  top: 15px;
-  left: 312px;
   background-image: url(./images/edit_button.svg);
   border: none;
   background-color: black;
   width: 24px;
   height: 24px;
-  transition: opacity .2s ease;
+  transition: opacity 0.2s ease;
   padding: 0;
+  margin-bottom: 10px;
+  grid-area: button;
 }
 
 .profile__edit-button:hover {
@@ -99,11 +110,11 @@
   padding: 0;
   background-color: black;
   align-self: center;
-  transition: opacity .2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .profile__add-button:hover {
-  opacity: .6;
+  opacity: 0.6;
   cursor: pointer;
 }
 
@@ -144,20 +155,24 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 220px;
 }
 
 .elements__like-button {
+  background-image: url(./images/like.svg);
+  width: 21px;
+  height: 18px;
+  border: 0;
+  padding: 0;
+  color: black;
+  background-color: white;
   margin: auto 17px auto 0;
-    background: none;
-    border: none;
-    padding: 0;
-    transition: opacity 1s ease;
+  transition: opacity 1s ease;
 }
-
 
 .elements__like-button:hover {
   cursor: pointer;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .footer {
@@ -174,9 +189,6 @@
   color: #545454;
 }
 
-
-
-
 @media (max-width: 920px) {
   .elements {
     grid-template-columns: repeat(2, 1fr);
@@ -186,9 +198,7 @@
   .footer__paragraph {
     margin: 0 0 0 40px;
   }
-
 }
-
 
 .popup {
   display: none;
@@ -200,7 +210,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .popup_opened {
@@ -210,7 +220,7 @@
 .popup__container {
   display: flex;
   flex-direction: column;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   position: relative;
@@ -228,13 +238,14 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  color: black;
 }
 
 .popup__text {
   width: 358px;
   margin: 0 auto 30px;
   border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -258,20 +269,24 @@
   color: white;
   border: none;
   margin: 18px auto 37px;
+  transition: opacity 0.5s ease;
 }
 
-.form__close-button {
+.popup__button:hover {
+  opacity: 0.8;
+}
+
+.popup__close-button {
   position: absolute;
   top: -50px;
   right: -50px;
-  transition: opacity .5s ease-out;
+  transition: opacity 0.5s ease;
   background: none;
   border: none;
   padding: 0;
-  
 }
 
-.form__close-button:hover {
+.popup__close-button:hover {
   cursor: pointer;
-  opacity: .6;
+  opacity: 0.6;
 }

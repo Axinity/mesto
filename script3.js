@@ -15,6 +15,7 @@ function openform() {
 
 function closeform() {
     popup.classList.remove('popup_opened');
+    popupContainer.reset();
 }
 
 editbutton.addEventListener ('click', openform);
@@ -22,11 +23,13 @@ closebutton.addEventListener ('click', closeform);
 
 function formSubmitHandler (evt) {
     evt.preventDefault();
-    let nameValue = document.getElementById('popup-name').value;
-    let descriptionValue = document.getElementById('popup-description').value;
-    name.textContent = nameValue;
-    description.textContent = descriptionValue;
+    let nameInput = document.getElementById('popup-name');
+    let descriptionIntup = document.getElementById('popup-description');
+    name.innerText = nameInput.getAttribute('value');
+    description.innerText = descriptionIntup.getAttribute('value');
     closeform();
+    // popupName.setAttribute('value', name.innerText);
+    // popupDescription.setAttribute('value', description.innerText);
 }
 
 popupContainer.addEventListener('submit', formSubmitHandler);
