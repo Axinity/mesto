@@ -8,7 +8,7 @@
   transition: opacity 0.5s ease;
   border: none;
   padding: 0;
-  background-color: black;
+  background-color: transparent;
 }
 
 .popup__close-button:hover {
@@ -18,6 +18,11 @@
 
 @media (max-width: 670px) {
   .popup__close-button {
-    right: 9px;
+    right: 0px;
+    top: -41px;
+    width: 35px;
+    height: 35px;
+    background-position: center;
+    background-size: 100%;
   }
 }
