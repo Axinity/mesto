@@ -19,3 +19,11 @@
     margin: 0;
   }
 }
+
+@media (max-width: 670px) {
+  .profile__add-button {
+    background-image: url(../../../images/add_button_302px.svg);
+    width: 282px;
+    margin: 0;
+  }
+}
