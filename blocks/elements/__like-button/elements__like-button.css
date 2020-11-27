@@ -8,9 +8,16 @@
   background-color: white;
   margin: auto 17px auto 0;
   transition: opacity 1s ease;
+  outline: none;
 }
 
 .elements__like-button:hover {
   cursor: pointer;
   opacity: 0.5;
+}
+
+.elements__like-button:active {
+  background-image: url(../../../images/like_black.svg);
+  background-repeat: no-repeat;
+  width: 20.05px;
 }

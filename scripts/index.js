@@ -6,6 +6,8 @@ let description = document.getElementById('description');
 let popupName = document.getElementById('popup-name');
 let popupDescription = document.getElementById('popup-description');
 let popupContainer = document.querySelector('.popup__container');
+const nameValue = document.getElementById('popup-name')
+const descriptionValue = document.getElementById('popup-description')
 
 function openform() {
     popupName.setAttribute('value', name.innerText);
@@ -17,16 +19,13 @@ function closeform() {
     popup.classList.remove('popup_opened');
 }
 
-editbutton.addEventListener ('click', openform);
-closebutton.addEventListener ('click', closeform);
-
 function formSubmitHandler (evt) {
-    evt.preventDefault();
-    let nameValue = document.getElementById('popup-name').value;
-    let descriptionValue = document.getElementById('popup-description').value;
-    name.textContent = nameValue;
-    description.textContent = descriptionValue;
+    evt.preventDefault();   
+    name.textContent = nameValue.value;;
+    description.textContent = descriptionValue.value;;
     closeform();
 }
 
+editbutton.addEventListener ('click', openform);
+closebutton.addEventListener ('click', closeform);
 popupContainer.addEventListener('submit', formSubmitHandler);
