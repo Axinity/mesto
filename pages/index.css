@@ -44,18 +44,4 @@
 @import url(../blocks/popup/__button/_card/popup__button_card.css);
 @import url(../blocks/popup/__text/_error/popup__text_error.css);
 @import url(../blocks/popup/__button/_invalid/popup__button_invalid.css);
-
-.error {
-  font-size: 12px;
-  line-height: 15px;
-  font-style: normal;
-  font-weight: normal;
-  color: #ff0000;
-  margin: 5px 34px 0;
-}
-
-@media (max-width: 670px) {
-  .error {
-    margin: 5px 20px 0;
-  }
-}
+@import url(../blocks/popup/__error/popup__error.css);
