@@ -87,6 +87,7 @@ function handleProfileSubmit (evt) {
 // ----------------------Открыть + Закрыть попапы----------
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    enableValidation(validationConfig);
 }
 
 function closePopup(popup) {
@@ -106,8 +107,8 @@ function addNewCard (evt){
     const inputLink = inputCardLink.value;                              // Новая карточка
     const newCard = createCard({ name: inputName, link: inputLink });
     cardList.prepend(newCard);
-    popupContainer.reset();
     closeCardForm();
+    popupContainer.reset();
 }
 
 

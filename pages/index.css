@@ -42,3 +42,14 @@
 @import url(../blocks/popup/__text/_card/popup__text_card.css);
 @import url(../blocks/popup/__title/_card/popup__title_card.css);
 @import url(../blocks/popup/__button/_card/popup__button_card.css);
+@import url(../blocks/popup/__text/_error/popup__text_error.css);
+@import url(../blocks/popup/__button/_invalid/popup__button_invalid.css);
+
+.error {
+  font-size: 12px;
+  line-height: 15px;
+  font-style: normal;
+  font-weight: normal;
+  color: #ff0000;
+  margin: 5px 34px 0;
+}
