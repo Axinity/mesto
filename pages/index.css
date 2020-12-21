@@ -53,3 +53,9 @@
   color: #ff0000;
   margin: 5px 34px 0;
 }
+
+@media (max-width: 670px) {
+  .error {
+    margin: 5px 20px 0;
+  }
+}

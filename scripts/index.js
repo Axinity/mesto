@@ -88,10 +88,14 @@ function handleProfileSubmit (evt) {
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     enableValidation(validationConfig);
+    document.addEventListener('keyup', escapePopup);
+    document.addEventListener('click', clickOutside);
 }
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('keyup', escapePopup);
+    document.removeEventListener('click', clickOutside);
 }
 
 function closeCardForm() {
@@ -110,6 +114,23 @@ function addNewCard (evt){
     closeCardForm();
     popupContainer.reset();
 }
+
+function checkClass(popup) {
+    return popup.classList.contains('popup_opened');
+}
+
+function escapePopup(evt) {
+    const popupOpened = document.querySelector('.popup_opened');
+    if (evt.key === "Escape") {
+        closePopup(popupOpened);
+    }
+}
+
+function clickOutside(evt) {
+    if (checkClass(evt.target)) {
+        closePopup(evt.target);
+    };
+};
 
 
 editButton.addEventListener ('click', openProfilePopup);
