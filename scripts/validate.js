@@ -74,9 +74,11 @@ function checkTextValidity(input) {
 } // кастомный текст для полей с "текстом"
 
 function checkUrlValidity(input) {
-    if (input.type === 'url' && input.value.length < 8) {
+    if (input.type === 'url' && input.validity.typeMismatch === true) {
         input.setCustomValidity('Введите адрес сайта')
     }
 } // кастомный текст для URL. (пока так, не знаю какое правильно задать условие. Изменю в будущем, как узнаю =) )
+// Я просто думал что там через паттерны или регулярные выражения, которые мы пока не знаем)
+// А тут все оказалось проще)
 
 
