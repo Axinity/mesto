@@ -65,7 +65,7 @@ function enableValidation(config) {
     });
 } //Вызывает валидацию
 
-function checkTextValidity(input) {
+function checkTextValidity(input) {  // Я создавал эти функции что бы текст был не стандартный, а как в макете))
     if (input.type === 'text' && input.value.length < 1) {
         input.setCustomValidity('Вы пропустили это поле')
     } else {
@@ -80,5 +80,6 @@ function checkUrlValidity(input) {
 } // кастомный текст для URL. (пока так, не знаю какое правильно задать условие. Изменю в будущем, как узнаю =) )
 // Я просто думал что там через паттерны или регулярные выражения, которые мы пока не знаем)
 // А тут все оказалось проще)
+// И тут тоже спасибо)
 
 

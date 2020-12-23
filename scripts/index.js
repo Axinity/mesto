@@ -70,8 +70,8 @@ popupCloseImage.addEventListener('click', function (evt) {
 
 // -----------------------Профиль---------------------
 function openProfilePopup() {
-    popupName.setAttribute('value', profileName.innerText);
-    popupDescription.setAttribute('value', description.innerText);
+    popupName.value = profileName.innerText;
+    popupDescription.value = description.innerText; // Спасибо, что подсказали и помогли разобраться) Так намного лучше)
     openPopup(popup);
 }
 
