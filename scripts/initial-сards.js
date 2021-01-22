@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
     {
         name: 'Балаково',
         link: 'https://balakovo24.ru/wp-content/uploads/2019/07/погода_балаково.jpg'

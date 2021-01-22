@@ -15,53 +15,24 @@ const popupCardClose = document.querySelector('[name="card-close-button"]');
 const inputCardName = document.querySelector('[name="popup_name-card"]');
 const inputCardLink = document.querySelector('[name="popup_link-card"]');
 const saveButtonCard = document.querySelector('[name="card-save-button"]');
-const popupOpenImage = document.querySelector('.popup_pic');
 const popupCloseImage = document.querySelector('.popup__close-image-button');
-const cardTemplate = document.querySelector('#card-template').content;
-const popupOpened = document.querySelector('.popup_opened');
-const popupImageName = document.querySelector('.popup__figcaption');
-const popupImageLink = document.querySelector('.popup__image');
+export const popupImageName = document.querySelector('.popup__figcaption');
+export const popupImageLink = document.querySelector('.popup__image');
+export const popupOpenImage = document.querySelector('.popup_pic');
 
 
-class Card {
-    constructor(data, cardSelector) {
-        this._name = data.name;
-        this._link = data.link;
-        this._cardSelector = cardSelector;
-    }
+import { Card } from './Card.js';
+import { initialCards } from './initial-сards.js';
+import { FormValidator } from './FormValidator.js';
 
-     _getTemplate() {
-        const cardElement = document.getElementById('card-template').content.cloneNode(true);
-        return cardElement;
-    }
 
-    generateCard() {
-        this._element = this._getTemplate();
-        this._setEventListeners();
-        this._element.querySelector('.element__photo').src = this._link;
-        this._element.querySelector('.element__title').textContent = this._name;
-
-        return this._element;
-    }
-
-    _setEventListeners() {
-        this._element.querySelector('.element__like-button').addEventListener('click', (evt) =>
-            evt.target.classList.toggle('element__like-button_active'));
-        
-        this._element.querySelector('.element__delete-button').addEventListener('click', function (evt) {
-            const card = evt.target.closest('.element');
-            card.remove();
-        })
-        this._element.querySelector('.element__photo').addEventListener('click', () => this._openCardImage());
-    }
-
-    _openCardImage() {
-        popupImageName.textContent = this._name;
-        popupImageLink.src = this._link;
-        openPopup(popupOpenImage);
-    }
-
-}
+const validationConfig = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__text',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_invalid',
+  inputErrorClass: 'popup__text_error',
+}; // data для валидации
 
 initialCards.forEach((initialCard) => {
     const card = new Card(initialCard, 'card-template');
@@ -70,13 +41,7 @@ initialCards.forEach((initialCard) => {
     document.querySelector('.elements').append(cardElement);
 }) // создание первоначальных карточек 
 
-
-
-
-
-
-
-function openPopup(popup) {
+export function openPopup(popup) {
     popup.classList.add('popup_opened');
     
     const formValidation = new FormValidator(validationConfig);
@@ -114,7 +79,6 @@ popupCloseImage.addEventListener('click', function (evt) {
     closePopup(image);
 }) //закрытие попапа по клику на крестик
 
-
 // -----------------------Профиль---------------------
 function openProfilePopup() {
     popupName.value = profileName.innerText;
@@ -134,14 +98,9 @@ function handleProfileSubmit (evt) {
 }
 // ---------------------Профиль--------------------------
 
-// ----------------------Закрыть попап новой карточки через крестик----------
-
 function closeCardForm() {
     closePopup(popupCard);
-}
-// ----------------------Закрыть попап новой карточки через крестик----------
-
-
+} // Закрыть попап новой карточки через крестик
 
 function addNewCard (evt){
     evt.preventDefault();
@@ -156,118 +115,9 @@ function addNewCard (evt){
     popupContainer.reset();
 }// Новая карточка
 
-
 editButton.addEventListener ('click', openProfilePopup);
 closeButtonProfile.addEventListener ('click', closeProfilePopup);
 popupContainer.addEventListener('submit', handleProfileSubmit);
 popupCardOpen.addEventListener('click', () => openPopup(popupCard));
 popupCardClose.addEventListener('click', closeCardForm);
 saveButtonCard.addEventListener('click', addNewCard);
-
-
-
-
-
-
-
-
-
-const validationConfig = {
-  formSelector: '.popup__container',
-  inputSelector: '.popup__text',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_invalid',
-  inputErrorClass: 'popup__text_error',
-}; 
-
-
-class FormValidator {
-    constructor(data) {
-        this._formSelector = data.formSelector;
-        this._inputSelector = data.inputSelector;
-        this._submitButtonSelector = data.submitButtonSelector;
-        this._inactiveButtonClass = data.inactiveButtonClass;
-        this._inputErrorClass = data.inputErrorClass;
-    }
-
-    enableValidation() {
-        const forms = Array.from(document.querySelectorAll(this._formSelector));
-        forms.forEach((formElement) => {
-                formElement.addEventListener('submit', (evt) => {
-                evt.preventDefault;
-            });
-            this._setEventListeners(formElement);
-        });
-    }
-
-    _setEventListeners = (formElement) => {
-        const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-        const subminButton = formElement.querySelector(this._submitButtonSelector);
-        
-        this._setButtonState(inputList, subminButton);
-        inputList.forEach(input => {
-            if (input.value === '' || input.validity.valid) {
-                this._hideError(formElement, input);
-            }
-
-            input.addEventListener('input', () => {
-                this._checkInputValidity(formElement, input);
-                this._setButtonState(inputList, subminButton);
-            });
-        });
-    }
-
-    _checkInputValidity = (formElement, input) => {
-        this._checkTextValidity(input);
-        this._checkUrlValidity(input);
-        if (input.validity.valid) {
-            this._hideError(formElement, input);
-        } else {
-            this._showError(formElement, input, input.validationMessage);
-        }
-    }
-
-    _setButtonState = (inputList, subminButton) => {
-        if (this._hasInvalidInput(inputList)) {
-            subminButton.classList.add(this._inactiveButtonClass);
-            subminButton.disabled = true;
-        } else {
-            subminButton.classList.remove(this._inactiveButtonClass);
-            subminButton.disabled = false;
-        }
-    }
-
-    _hasInvalidInput = (inputList) => {
-        return inputList.some((input) => {
-          return !input.validity.valid;
-        })
-    };
-
-    _showError = (formElement, input, errorMessage) => {
-        const error = formElement.querySelector(`#${input.id}-error`);
-        input.classList.add(this._inputErrorClass);
-        error.textContent = errorMessage;
-        
-    }// показ ошибки валидации     error заменить на error
-
-    _hideError = (formElement, input) => {
-        const error = formElement.querySelector(`#${input.id}-error`);
-        input.classList.remove(this._inputErrorClass);
-        error.textContent = "";
-    }//скрытие ошибки валидации
-
-    _checkTextValidity(input) {
-        if (input.type === 'text' && input.value.length < 1) {
-            input.setCustomValidity('Вы пропустили это поле')
-        } else {
-            input.setCustomValidity('')
-        }
-    } // кастомный текст для полей с "текстом"
-
-    _checkUrlValidity(input) {
-        if (input.type === 'url' && input.validity.typeMismatch === true) {
-            input.setCustomValidity('Введите адрес сайта')
-        }
-    }
-
-}

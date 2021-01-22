@@ -1,4 +1,4 @@
-class FormValidator {
+export class FormValidator {
     constructor(data) {
         this._formSelector = data.formSelector;
         this._inputSelector = data.inputSelector;
@@ -15,21 +15,21 @@ class FormValidator {
             });
             this._setEventListeners(formElement);
         });
-    }
+    } // запуск валидации 
 
     _setEventListeners = (formElement) => {
         const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-        const subminButton = formElement.querySelector(this._submitButtonSelector);
+        const saveButton = formElement.querySelector(this._submitButtonSelector);
         
-        this._setButtonState(inputList, subminButton);
+        this._setButtonState(inputList, saveButton);
         inputList.forEach(input => {
-            if (input.value === '' || input.validity.valid) {
+            if (input.validity.valid) {
                 this._hideError(formElement, input);
             }
 
             input.addEventListener('input', () => {
                 this._checkInputValidity(formElement, input);
-                this._setButtonState(inputList, subminButton);
+                this._setButtonState(inputList, saveButton);
             });
         });
     }
@@ -42,30 +42,30 @@ class FormValidator {
         } else {
             this._showError(formElement, input, input.validationMessage);
         }
-    }
+    } // доавление или удаление сообщения об ошибке 
 
-    _setButtonState = (inputList, subminButton) => {
+    _setButtonState = (inputList, saveButton) => {
         if (this._hasInvalidInput(inputList)) {
-            subminButton.classList.add(this._inactiveButtonClass);
-            subminButton.disabled = true;
+            saveButton.classList.add(this._inactiveButtonClass);
+            saveButton.disabled = true;
         } else {
-            subminButton.classList.remove(this._inactiveButtonClass);
-            subminButton.disabled = false;
+            saveButton.classList.remove(this._inactiveButtonClass);
+            saveButton.disabled = false;
         }
-    }
+    } // изменение состояния кнопки 
 
     _hasInvalidInput = (inputList) => {
         return inputList.some((input) => {
           return !input.validity.valid;
         })
-    };
+    }; // проверка на присутствие валидных полей
 
     _showError = (formElement, input, errorMessage) => {
         const error = formElement.querySelector(`#${input.id}-error`);
         input.classList.add(this._inputErrorClass);
         error.textContent = errorMessage;
         
-    }// показ ошибки валидации     error заменить на error
+    }// показ ошибки валидации 
 
     _hideError = (formElement, input) => {
         const error = formElement.querySelector(`#${input.id}-error`);
@@ -85,6 +85,6 @@ class FormValidator {
         if (input.type === 'url' && input.validity.typeMismatch === true) {
             input.setCustomValidity('Введите адрес сайта')
         }
-    }
+    }// кастомный текст для полей с ссылкой
 
 }

@@ -1,8 +1,9 @@
-class Card {
-    constructor(data, cardSelector) {
+import { popupImageName, popupImageLink, popupOpenImage, openPopup } from './index.js';
+
+export class Card {
+    constructor(data) {
         this._name = data.name;
         this._link = data.link;
-        this._cardSelector = cardSelector;
     }
 
      _getTemplate() {
@@ -35,7 +36,6 @@ class Card {
         popupImageLink.src = this._link;
         openPopup(popupOpenImage);
     }
-
 }
 
 
