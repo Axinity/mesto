@@ -20,14 +20,17 @@ export class Card {
         return this._element;
     }
 
+    _likeCard(evt) {
+        evt.target.classList.toggle('element__like-button_active')
+    }
+
+    _removeCard(evt) {
+        evt.target.closest('.element').remove();
+    }
+
     _setEventListeners() {
-        this._element.querySelector('.element__like-button').addEventListener('click', (evt) =>
-            evt.target.classList.toggle('element__like-button_active'));
-        
-        this._element.querySelector('.element__delete-button').addEventListener('click', function (evt) {
-            const card = evt.target.closest('.element');
-            card.remove();
-        })
+        this._element.querySelector('.element__like-button').addEventListener('click', this._likeCard);     
+        this._element.querySelector('.element__delete-button').addEventListener('click', this._removeCard);
         this._element.querySelector('.element__photo').addEventListener('click', () => this._openCardImage());
     }
 

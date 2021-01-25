@@ -1,3 +1,7 @@
+import { Card } from './Card.js';
+import { initialCards } from './initial-сards.js';
+import { FormValidator } from './FormValidator.js';
+
 const editButton = document.querySelector('.profile__edit-button');
 const closeButtonProfile = document.querySelector('.popup__close-button');
 const popup = document.querySelector('.popup');
@@ -20,12 +24,6 @@ export const popupImageName = document.querySelector('.popup__figcaption');
 export const popupImageLink = document.querySelector('.popup__image');
 export const popupOpenImage = document.querySelector('.popup_pic');
 
-
-import { Card } from './Card.js';
-import { initialCards } from './initial-сards.js';
-import { FormValidator } from './FormValidator.js';
-
-
 const validationConfig = {
   formSelector: '.popup__container',
   inputSelector: '.popup__text',
@@ -38,15 +36,14 @@ initialCards.forEach((initialCard) => {
     const card = new Card(initialCard, 'card-template');
     const cardElement = card.generateCard();
 
-    document.querySelector('.elements').append(cardElement);
+    cardList.append(cardElement);
 }) // создание первоначальных карточек 
+
+const formValidation = new FormValidator(validationConfig);
+formValidation.enableValidation(); // запуск валидации 
 
 export function openPopup(popup) {
     popup.classList.add('popup_opened');
-    
-    const formValidation = new FormValidator(validationConfig);
-    formValidation.enableValidation();
-
     document.addEventListener('keyup', escapePopup);
     document.addEventListener('click', clickOutside);
 } // открытие попапа
@@ -71,8 +68,8 @@ function escapePopup(evt) {
 function clickOutside(evt) {
     if (checkClass(evt.target)) {
         closePopup(evt.target);
-    };
-}; // закрытие попапа с картинкой по клику 
+    }
+} // закрытие попапа с картинкой по клику 
 
 popupCloseImage.addEventListener('click', function (evt) {
     const image = evt.target.closest('.popup');
@@ -92,7 +89,7 @@ function closeProfilePopup() {
 
 function handleProfileSubmit (evt) {
     evt.preventDefault();   
-    profileName.textContent = nameValue.value;;
+    profileName.textContent = nameValue.value;
     description.textContent = descriptionValue.value;
     closeProfilePopup();
 }
