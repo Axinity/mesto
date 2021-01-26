@@ -24,13 +24,22 @@ export const popupImageName = document.querySelector('.popup__figcaption');
 export const popupImageLink = document.querySelector('.popup__image');
 export const popupOpenImage = document.querySelector('.popup_pic');
 
-const validationConfig = {
-  formSelector: '.popup__container',
+
+const validationConfigProfile = {
+  formSelector: '.popup__profile-valid',
   inputSelector: '.popup__text',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_invalid',
   inputErrorClass: 'popup__text_error',
-}; // data для валидации
+};// data для валидации
+
+const validationConfigCard = {
+  formSelector: '.popup__new-card-valid',
+  inputSelector: '.popup__text',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_invalid',
+  inputErrorClass: 'popup__text_error',
+};
 
 initialCards.forEach((initialCard) => {
     const card = new Card(initialCard, 'card-template');
@@ -39,8 +48,11 @@ initialCards.forEach((initialCard) => {
     cardList.append(cardElement);
 }) // создание первоначальных карточек 
 
-const formValidation = new FormValidator(validationConfig);
-formValidation.enableValidation(); // запуск валидации 
+const formValidationProfile = new FormValidator(validationConfigProfile);
+formValidationProfile.enableValidation(); // запуск валидации провиля
+const formValidationCard = new FormValidator(validationConfigCard);
+formValidationCard.enableValidation(); // запуск валидации попапа новой карточки 
+
 
 export function openPopup(popup) {
     popup.classList.add('popup_opened');
