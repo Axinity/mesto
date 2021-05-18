@@ -13,3 +13,5 @@ export const profileSelectors = {
     profileNameSelector: '.profile__title',
     profileDescSelector: '.profile__description'
 }
+export const popupSaveButtonProfile = document.querySelector('.popup__button_profile')
+export const popupSaveButtonCard = document.querySelector('.popup__button_card')

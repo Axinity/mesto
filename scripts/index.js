@@ -18,8 +18,11 @@ import {
     formAdd,
     popupUserName,
     popupUserDesc,
-    profileSelectors
+    profileSelectors,
+    popupSaveButtonProfile,
+    popupSaveButtonCard
 } from './constants.js'
+import '../pages/index.css'
 
 // -----------------------------Валидация-------------------------
 const formValidationProfile = new FormValidator(validationConfigProfile);
@@ -60,6 +63,8 @@ const formSubmitHandler = (evt) => {
     }
     userInfo.setUserInfo(info);
     profileEditPopup.close();
+    popupSaveButtonProfile.classList.add('popup__button_invalid');
+    popupSaveButtonProfile.disabled = true;
 }
 
 const formSubmitAddHandler = (evt) => { 
@@ -67,7 +72,9 @@ const formSubmitAddHandler = (evt) => {
     const card = new Card({ name: popUpImageTitleInput.value, link: popUpImageLinkInput.value }, '.card-template', cardImageClickHandler)
     addCard(card.generateCard());
     addNewCardPopup.close();
-    formAdd.reset(); 
+    formAdd.reset();
+    popupSaveButtonCard.classList.add('popup__button_invalid');
+    popupSaveButtonCard.disabled = true;
 }  // добавление новой карточки 
 
 const addNewCardPopup = new PopupWithForm(newCardPopup, formSubmitAddHandler) // форма новой карточки
