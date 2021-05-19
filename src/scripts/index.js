@@ -24,6 +24,12 @@ import {
 } from './constants.js'
 import '../pages/index.css'
 
+
+
+
+
+
+
 // -----------------------------Валидация-------------------------
 const formValidationProfile = new FormValidator(validationConfigProfile);
 formValidationProfile.enableValidation(); // запуск валидации провиля
