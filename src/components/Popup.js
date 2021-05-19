@@ -1,3 +1,5 @@
+import {escKeyCode} from '../scripts/constants.js'
+
 class Popup {
     constructor(popupSelector) { 
         this._popup = document.querySelector(popupSelector)
@@ -9,15 +11,15 @@ class Popup {
         document.addEventListener('click', this._handlerClickOverlay);
     }
 
-    close = () =>  {
+    close () {
         console.log('here')
         this._popup.classList.remove('popup_opened')
         document.removeEventListener('keydown', this._handlerEscClose);
-        document.removeEventListener('click', this._handlerClickOverlay);
+        
     }
 
     _handlerEscClose = (event) => {
-        if (event.keyCode === 27) {
+        if (event.keyCode === escKeyCode) {
             this.close()
         }
     }
@@ -32,6 +34,7 @@ class Popup {
         this._popup.querySelector('.popup__close-button').addEventListener('click', () => {
             this.close()
         })
+        document.removeEventListener('click', this._handlerClickOverlay);
     }
 }
 

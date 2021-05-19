@@ -1,15 +1,16 @@
 export  const validationConfigProfile = {
-  formSelector: '.popup__profile-valid',
   inputSelector: '.popup__text',
-  submitButtonSelector: '.popup__button',
+  submitButtonSelector: '.popup__button_profile',
   inactiveButtonClass: 'popup__button_invalid',
   inputErrorClass: 'popup__text_error',
 };// data для валидации профиля
 
 export const validationConfigCard = {
-  formSelector: '.popup__new-card-valid',
   inputSelector: '.popup__text',
-  submitButtonSelector: '.popup__button',
+  submitButtonSelector: '.popup__button_card',
   inactiveButtonClass: 'popup__button_invalid',
   inputErrorClass: 'popup__text_error',
 }; // data для валидации новой карточки 
+
+export const formSelectorProfile = '.popup__profile-valid'
+export const formSelectorCard = '.popup__new-card-valid'

@@ -1,11 +1,11 @@
-import { Card } from './Card.js';
-import { initialCards } from './initial-сards.js';
-import { FormValidator } from './FormValidator.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from "./PopupWithForm.js";
-import Section from "./Section.js"
-import UserInfo from "./UserInfo.js"
-import {validationConfigProfile, validationConfigCard} from './validation-Data.js'
+import { Card } from '../components/Card.js';
+import { initialCards } from '../scripts/initial-сards.js';
+import { FormValidator } from '../components/FormValidator.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from "../components/PopupWithForm.js";
+import Section from "../components/Section.js"
+import UserInfo from "../components/UserInfo.js"
+import {validationConfigProfile, validationConfigCard, formSelectorProfile, formSelectorCard} from '../scripts/validation-Data.js'
 import {
     editButton,
     editProfilePopup,
@@ -19,9 +19,7 @@ import {
     popupUserName,
     popupUserDesc,
     profileSelectors,
-    popupSaveButtonProfile,
-    popupSaveButtonCard
-} from './constants.js'
+} from '../scripts/constants.js'
 import '../pages/index.css'
 
 
@@ -31,27 +29,28 @@ import '../pages/index.css'
 
 
 // -----------------------------Валидация-------------------------
-const formValidationProfile = new FormValidator(validationConfigProfile);
+const formValidationProfile = new FormValidator(validationConfigProfile, formSelectorProfile);
 formValidationProfile.enableValidation(); // запуск валидации провиля
-const formValidationCard = new FormValidator(validationConfigCard);
+const formValidationCard = new FormValidator(validationConfigCard, formSelectorCard);
 formValidationCard.enableValidation(); // запуск валидации попапа новой карточки 
 // -----------------------------Валидация-------------------------
 
 function addCard(newCard) {
-    cardList.prepend(newCard);
+    initialSection.addNewItem(newCard);
 } // добавление карточек
 
-const generateInitCards = (cards) => {
-    const initialSection = new Section({
-        items: cards,
-        renderer: (item) => {
-            const card = new Card(item, '.card-template', cardImageClickHandler)
-            initialSection.addItem(card.generateCard());
-        }
-    }, cardList)
-    initialSection.renderItems();
-}  // создание начальный карточек
-generateInitCards(initialCards);
+const createCard = (item) => {
+    return new Card(item, '.card-template', cardImageClickHandler)
+}
+
+const initialSection = new Section({
+    items: initialCards,
+    renderer: (item) => {
+        const card = createCard(item)
+        initialSection.addItem(card.generateCard());
+    }
+}, cardList)
+initialSection.renderItems();
 
 const userInfo = new UserInfo(profileSelectors);
 editButton.addEventListener('click', function() {
@@ -69,8 +68,7 @@ const formSubmitHandler = (evt) => {
     }
     userInfo.setUserInfo(info);
     profileEditPopup.close();
-    popupSaveButtonProfile.classList.add('popup__button_invalid');
-    popupSaveButtonProfile.disabled = true;
+    formValidationProfile.disableSubmitButton();
 }
 
 const formSubmitAddHandler = (evt) => { 
@@ -79,8 +77,7 @@ const formSubmitAddHandler = (evt) => {
     addCard(card.generateCard());
     addNewCardPopup.close();
     formAdd.reset();
-    popupSaveButtonCard.classList.add('popup__button_invalid');
-    popupSaveButtonCard.disabled = true;
+    formValidationCard.disableSubmitButton();
 }  // добавление новой карточки 
 
 const addNewCardPopup = new PopupWithForm(newCardPopup, formSubmitAddHandler) // форма новой карточки

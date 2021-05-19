@@ -1,10 +1,10 @@
 export class FormValidator {
-    constructor(data) {
-        this._formSelector = data.formSelector;
+    constructor(data, formValidSelector) {
         this._inputSelector = data.inputSelector;
         this._submitButtonSelector = data.submitButtonSelector;
         this._inactiveButtonClass = data.inactiveButtonClass;
         this._inputErrorClass = data.inputErrorClass;
+        this._formSelector = formValidSelector;
     }
 
     enableValidation() {
@@ -16,6 +16,11 @@ export class FormValidator {
             this._setEventListeners(formElement);
         });
     } // запуск валидации 
+
+    disableSubmitButton () {
+        document.querySelector(this._submitButtonSelector).classList.add(this._inactiveButtonClass);
+        document.querySelector(this._submitButtonSelector).disabled = true;
+    }
 
     _setEventListeners = (formElement) => {
         const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
