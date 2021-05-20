@@ -12,5 +12,5 @@ export const validationConfigCard = {
   inputErrorClass: 'popup__text_error',
 }; // data для валидации новой карточки 
 
-export const formSelectorProfile = '.popup__profile-valid'
-export const formSelectorCard = '.popup__new-card-valid'
+export const formSelectorProfile = document.querySelector('.popup__profile-valid')
+export const formSelectorCard = document.querySelector('.popup__new-card-valid')

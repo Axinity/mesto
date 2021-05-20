@@ -68,7 +68,6 @@ const formSubmitHandler = (evt) => {
     }
     userInfo.setUserInfo(info);
     profileEditPopup.close();
-    formValidationProfile.disableSubmitButton();
 }
 
 const formSubmitAddHandler = (evt) => { 
@@ -77,19 +76,20 @@ const formSubmitAddHandler = (evt) => {
     addCard(card.generateCard());
     addNewCardPopup.close();
     formAdd.reset();
-    formValidationCard.disableSubmitButton();
 }  // добавление новой карточки 
 
 const addNewCardPopup = new PopupWithForm(newCardPopup, formSubmitAddHandler) // форма новой карточки
 addNewCardPopup.setEventListeners()
 popupCardOpen.addEventListener('click', function () {
-     addNewCardPopup.open()
+    formValidationCard.disableSubmitButton();
+    addNewCardPopup.open()
 })  
  
 const profileEditPopup = new PopupWithForm(editProfilePopup, formSubmitHandler) // форма профиля
 profileEditPopup.setEventListeners()
 editButton.addEventListener('click', function () {
-     profileEditPopup.open()
+    formValidationProfile.disableSubmitButton();
+    profileEditPopup.open();
 })
 
 const popupWithImage = new PopupWithImage(popupOpenImage)  // большая картинка 

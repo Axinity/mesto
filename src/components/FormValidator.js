@@ -1,58 +1,55 @@
 export class FormValidator {
-    constructor(data, formValidSelector) {
+    constructor(data, formElement) {
         this._inputSelector = data.inputSelector;
         this._submitButtonSelector = data.submitButtonSelector;
         this._inactiveButtonClass = data.inactiveButtonClass;
         this._inputErrorClass = data.inputErrorClass;
-        this._formSelector = formValidSelector;
+        this._formElement = formElement;
+        this._submitButton = document.querySelector(this._submitButtonSelector);
     }
 
     enableValidation() {
-        const forms = Array.from(document.querySelectorAll(this._formSelector));
-        forms.forEach((formElement) => {
-                formElement.addEventListener('submit', (evt) => {
-                evt.preventDefault;
-            });
-            this._setEventListeners(formElement);
-        });
+         this._formElement.addEventListener('submit', (event) => {
+            event.preventDefault();
+         });
+        this._setEventListeners(this._formElement);
     } // запуск валидации 
 
     disableSubmitButton () {
-        document.querySelector(this._submitButtonSelector).classList.add(this._inactiveButtonClass);
-        document.querySelector(this._submitButtonSelector).disabled = true;
+        this._submitButton.classList.add(this._inactiveButtonClass);
+        this._submitButton.disabled = true;
     }
 
-    _setEventListeners = (formElement) => {
-        const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-        const saveButton = formElement.querySelector(this._submitButtonSelector);
+    _setEventListeners = () => {
+        const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+        const saveButton = this._formElement.querySelector(this._submitButtonSelector);
         
         this._setButtonState(inputList, saveButton);
         inputList.forEach(input => {
             if (input.validity.valid) {
-                this._hideError(formElement, input);
+                this._hideError(input);
             }
 
             input.addEventListener('input', () => {
-                this._checkInputValidity(formElement, input);
+                this._checkInputValidity( input);
                 this._setButtonState(inputList, saveButton);
             });
         });
     }
 
-    _checkInputValidity = (formElement, input) => {
+    _checkInputValidity = ( input) => {
         this._checkTextValidity(input);
         this._checkUrlValidity(input);
         if (input.validity.valid) {
-            this._hideError(formElement, input);
+            this._hideError(input);
         } else {
-            this._showError(formElement, input, input.validationMessage);
+            this._showError(input, input.validationMessage);
         }
     } // доавление или удаление сообщения об ошибке 
 
     _setButtonState = (inputList, saveButton) => {
         if (this._hasInvalidInput(inputList)) {
-            saveButton.classList.add(this._inactiveButtonClass);
-            saveButton.disabled = true;
+            this.disableSubmitButton();
         } else {
             saveButton.classList.remove(this._inactiveButtonClass);
             saveButton.disabled = false;
@@ -65,15 +62,15 @@ export class FormValidator {
         })
     }; // проверка на присутствие валидных полей
 
-    _showError = (formElement, input, errorMessage) => {
-        const error = formElement.querySelector(`#${input.id}-error`);
+    _showError = ( input, errorMessage) => {
+        const error = this._formElement.querySelector(`#${input.id}-error`);
         input.classList.add(this._inputErrorClass);
         error.textContent = errorMessage;
         
     }// показ ошибки валидации 
 
-    _hideError = (formElement, input) => {
-        const error = formElement.querySelector(`#${input.id}-error`);
+    _hideError = (input) => {
+        const error = this._formElement.querySelector(`#${input.id}-error`);
         input.classList.remove(this._inputErrorClass);
         error.textContent = "";
     }//скрытие ошибки валидации
