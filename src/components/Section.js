@@ -3,6 +3,8 @@ export default class Section {
         this._renderedItems = items;
         this._renderer = renderer;
         this._container = container;
+        this._addNewItemName = document.querySelector('.popup__text_name-card')
+        this._addNewItemLink = document.querySelector('.popup__text_link-card')
     }
 
     addItem(element) {

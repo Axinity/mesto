@@ -1,8 +1,9 @@
 import { Card } from '../components/Card.js';
-import { initialCards } from '../scripts/initial-сards.js';
 import { FormValidator } from '../components/FormValidator.js';
+import PopupWithSubmit from '../components/PopupWithSubmit';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from "../components/PopupWithForm.js";
+import Api from '../components/Api.js';
 import Section from "../components/Section.js"
 import UserInfo from "../components/UserInfo.js"
 import {validationConfigProfile, validationConfigCard, formSelectorProfile, formSelectorCard} from '../scripts/validation-Data.js'
@@ -19,12 +20,9 @@ import {
     popupUserName,
     popupUserDesc,
     profileSelectors,
+    deleteCardPopup
 } from '../scripts/constants.js'
 import '../pages/index.css'
-
-
-
-
 
 
 
@@ -36,21 +34,15 @@ formValidationCard.enableValidation(); // запуск валидации поп
 // -----------------------------Валидация-------------------------
 
 function addCard(newCard) {
+    api.sendNewCard()
     initialSection.addNewItem(newCard);
 } // добавление карточек
 
 const createCard = (item) => {
-    return new Card(item, '.card-template', cardImageClickHandler)
+    return new Card(item, '.card-template', cardImageClickHandler, cardDeleteHandler, api, userId)
 }
 
-const initialSection = new Section({
-    items: initialCards,
-    renderer: (item) => {
-        const card = createCard(item)
-        initialSection.addItem(card.generateCard());
-    }
-}, cardList)
-initialSection.renderItems();
+
 
 const userInfo = new UserInfo(profileSelectors);
 editButton.addEventListener('click', function() {
@@ -64,16 +56,17 @@ const formSubmitHandler = (evt) => {
     evt.preventDefault();
     const info = {
         name: popupUserName.value,
-        description: popupUserDesc.value
+        about: popupUserDesc.value,
     }
     userInfo.setUserInfo(info);
+    api.sendUserInfo(info)
     profileEditPopup.close();
 }
 
 const formSubmitAddHandler = (evt) => { 
     evt.preventDefault();
-    const card = new Card({ name: popUpImageTitleInput.value, link: popUpImageLinkInput.value }, '.card-template', cardImageClickHandler)
-    addCard(card.generateCard());
+    const card = new Card({ name: popUpImageTitleInput.value, link: popUpImageLinkInput.value }, '.card-template', cardImageClickHandler, cardDeleteHandler, api, userId)
+    addCard(card.generateNewCard());
     addNewCardPopup.close();
     formAdd.reset();
 }  // добавление новой карточки 
@@ -98,3 +91,56 @@ popupWithImage.setEventListeners()
 function cardImageClickHandler(url, text) {  // изображение и текст для большой картики
     popupWithImage.open(url, text)
 }
+
+  
+let initialSection;
+
+const api = new Api({
+    address: 'https://mesto.nomoreparties.co/v1/cohort-24/',
+    token: '7b3f69ee-7b91-4649-926c-d71156200cb0'
+})
+
+//----------------------Запрос Инфы Юзера-------------------
+
+let userId;
+api.getInfoUser() 
+    .then((result) => {
+        console.log(result);
+        userInfo.setUserInfoOnLoad(result);
+        userId = result._id
+    })
+    .catch((err) => {console.log(err)});
+//----------------------Запрос Инфы Юзера-------------------
+
+export const deleteCard = new PopupWithSubmit(deleteCardPopup)
+deleteCard.setEventListeners()
+
+function cardDeleteHandler(id, element) {
+    const newHandler = () => {
+        console.log(id)
+        api.apiDeleteCard(id)
+            .then(() => {
+                deleteCard.deleteCard(element)
+                deleteCard.close()
+        })
+    }
+    deleteCard.setSubmitHandler(newHandler)
+    console.log(id)
+    // api.apiDeleteCard(id)
+    deleteCard.open()
+}   
+
+//--------------Создание НАЧАЛЬНХ карточек-------------------
+api.getInitialCards()
+    .then((result) => {
+        console.log(result);
+        initialSection = new Section({
+            items: result,
+            renderer: (item) => {
+                const card = createCard(item)
+                initialSection.addItem(card.generateCard());
+            }
+        }, cardList) 
+        initialSection.renderItems();
+    })
+//--------------Создание НАЧАЛЬНХ карточек-------------------

@@ -11,7 +11,10 @@ export const popupUserName = document.querySelector('.popup__text_title_name');
 export const popupUserDesc = document.querySelector('.popup__text_title_desc');
 export const profileSelectors = {
     profileNameSelector: '.profile__title',
-    profileDescSelector: '.profile__description'
+    profileDescSelector: '.profile__description',
+    profileAvatar: '.profile__avatar'
 }
+export const deleteCardPopup = '.popup_delete-confirm'
 
+//export const popupDeleteComfirm = document.querySelector('.card-template').content.querySelector('.element__delete-button')
 export const escKeyCode = 27;
