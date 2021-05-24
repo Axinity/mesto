@@ -6,7 +6,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import Api from '../components/Api.js';
 import Section from "../components/Section.js"
 import UserInfo from "../components/UserInfo.js"
-import {validationConfigProfile, validationConfigCard, formSelectorProfile, formSelectorCard} from '../scripts/validation-Data.js'
+import {validationConfigProfile, validationConfigCard, validationConfigAvatar, formSelectorProfile, formSelectorCard, formSelectorAvatar} from '../scripts/validation-Data.js'
 import {
     editButton,
     editProfilePopup,
@@ -20,7 +20,10 @@ import {
     popupUserName,
     popupUserDesc,
     profileSelectors,
-    deleteCardPopup
+    deleteCardPopup,
+    popupAvatarUpdateButton,
+    profileAvatar,
+    profileAvatarLink
 } from '../scripts/constants.js'
 import '../pages/index.css'
 
@@ -31,6 +34,8 @@ const formValidationProfile = new FormValidator(validationConfigProfile, formSel
 formValidationProfile.enableValidation(); // запуск валидации провиля
 const formValidationCard = new FormValidator(validationConfigCard, formSelectorCard);
 formValidationCard.enableValidation(); // запуск валидации попапа новой карточки 
+const formValidationAvatar = new FormValidator(validationConfigAvatar, formSelectorAvatar)
+formValidationAvatar.enableValidation(); // запуск валидации поапа смены аватара юзера
 // -----------------------------Валидация-------------------------
 
 function addCard(newCard) {
@@ -84,6 +89,29 @@ editButton.addEventListener('click', function () {
     formValidationProfile.disableSubmitButton();
     profileEditPopup.open();
 })
+
+const formSubmitAvatarHandler = (evt) => {
+    evt.preventDefault();
+    const avatar = {
+        avatar: document.querySelector('.popup__text_link-avatar').value
+    }
+    api.avatarUpdate(avatar)
+        .then(() => {
+            profileAvatar.src = document.querySelector('.popup__text_link-avatar').value
+        })
+        .then(() => {
+            profileAvatarUpdate.close();
+        })
+}
+
+const profileAvatarUpdate = new PopupWithForm(popupAvatarUpdateButton, formSubmitAvatarHandler)
+profileAvatarUpdate.setEventListeners()
+profileAvatar.addEventListener('click', function () {
+    formValidationAvatar.disableSubmitButton();
+    profileAvatarUpdate.open()
+})
+
+
 
 const popupWithImage = new PopupWithImage(popupOpenImage)  // большая картинка 
 popupWithImage.setEventListeners()

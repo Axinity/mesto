@@ -4,6 +4,11 @@
   height: 120px;
   border-radius: 100px;
   background-size: cover;
+  object-fit: cover;
+}
+
+.profile__avatar:hover {
+  .profile__avatar;
 }
 
 @media (max-width: 670px) {
