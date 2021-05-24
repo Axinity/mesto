@@ -10,7 +10,6 @@ export default class UserInfo {
             name: this._userName.textContent,
             description: this._userDescription.textContent
         }
-
         return userSet;
     }
 

@@ -30,8 +30,7 @@ export class Card {
         if (this._owner._id !== this.userId) {
             this._element.querySelector('.element__delete-button').remove()
         }
-        return this._element;
-        
+        return this._element;  
     }
 
     generateNewCard() {
@@ -67,8 +66,6 @@ export class Card {
             })
         }
     }
-    
-    
 
     _checkLikes() {
         return this._likes.some((item) => {

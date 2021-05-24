@@ -26,8 +26,8 @@ import {
     profileAvatarButton
 } from '../scripts/constants.js'
 import '../pages/index.css'
-
-
+let initialSection;
+let userId;
 
 // -----------------------------Валидация-------------------------
 const formValidationProfile = new FormValidator(validationConfigProfile, formSelectorProfile);
@@ -38,16 +38,9 @@ const formValidationAvatar = new FormValidator(validationConfigAvatar, formSelec
 formValidationAvatar.enableValidation(); // запуск валидации поапа смены аватара юзера
 // -----------------------------Валидация-------------------------
 
-function addCard(newCard) {
-    api.sendNewCard()
-    initialSection.addNewItem(newCard);
-} // добавление карточек
-
 const createCard = (item) => {
     return new Card(item, '.card-template', cardImageClickHandler, cardDeleteHandler, api, userId)
-}
-
-
+}  //функция создания экземпляра касса Card
 
 const userInfo = new UserInfo(profileSelectors);
 editButton.addEventListener('click', function() {
@@ -55,25 +48,37 @@ editButton.addEventListener('click', function() {
     const newInfo = userInfo.getUserInfo();
     popupUserName.value = newInfo.name;
     popupUserDesc.value = newInfo.description;
-});
+});  // слушатель открытия и подстановки значение в попап профиля
 
 const formSubmitHandler = (evt) => {
     evt.preventDefault();
+    profileEditPopup.renderLoading(true)
     const info = {
         name: popupUserName.value,
         about: popupUserDesc.value,
     }
     userInfo.setUserInfo(info);
     api.sendUserInfo(info)
-    profileEditPopup.close();
-}
+        .then(() => {
+            profileEditPopup.close()
+        })
+        .catch((err) => { console.log(err) })
+        .finally(() => profileEditPopup.renderLoading(false))
+}  // сабмит кнопки рекатирования профиля
 
 const formSubmitAddHandler = (evt) => { 
     evt.preventDefault();
+    addNewCardPopup.renderLoading(true)
     const card = new Card({ name: popUpImageTitleInput.value, link: popUpImageLinkInput.value }, '.card-template', cardImageClickHandler, cardDeleteHandler, api, userId)
-    addCard(card.generateNewCard());
-    addNewCardPopup.close();
-    formAdd.reset();
+    api.sendNewCard()
+        .then(() => {
+            initialSection.addNewItem(card.generateNewCard());
+            addNewCardPopup.close();
+            formAdd.reset();
+        })
+        .catch((err) => { console.log(err) })
+        .finally(() => addNewCardPopup.renderLoading(false))
+    
 }  // добавление новой карточки 
 
 const addNewCardPopup = new PopupWithForm(newCardPopup, formSubmitAddHandler) // форма новой карточки
@@ -90,28 +95,27 @@ editButton.addEventListener('click', function () {
     profileEditPopup.open();
 })
 
-const formSubmitAvatarHandler = (evt) => {
+const formSubmitAvatarHandler = (evt) => { //сабмит кнопки редактирования аватарки 
     evt.preventDefault();
+    profileAvatarUpdate.renderLoading(true)
     const avatar = {
         avatar: document.querySelector('.popup__text_link-avatar').value
     }
     api.avatarUpdate(avatar)
         .then(() => {
             profileAvatar.src = document.querySelector('.popup__text_link-avatar').value
-        })
-        .then(() => {
             profileAvatarUpdate.close();
         })
+        .catch((err) => { console.log(err) })
+        .finally(() => profileAvatarUpdate.renderLoading(false))
 }
 
-const profileAvatarUpdate = new PopupWithForm(popupAvatarUpdateButton, formSubmitAvatarHandler)
+const profileAvatarUpdate = new PopupWithForm(popupAvatarUpdateButton, formSubmitAvatarHandler) // форма изменения аватарки
 profileAvatarUpdate.setEventListeners()
 profileAvatarButton.addEventListener('click', function () {
     formValidationAvatar.disableSubmitButton();
     profileAvatarUpdate.open()
 })
-
-
 
 const popupWithImage = new PopupWithImage(popupOpenImage)  // большая картинка 
 popupWithImage.setEventListeners()
@@ -120,9 +124,6 @@ function cardImageClickHandler(url, text) {  // изображение и тек
     popupWithImage.open(url, text)
 }
 
-  
-let initialSection;
-
 const api = new Api({
     address: 'https://mesto.nomoreparties.co/v1/cohort-24/',
     token: '7b3f69ee-7b91-4649-926c-d71156200cb0'
@@ -130,7 +131,6 @@ const api = new Api({
 
 //----------------------Запрос Инфы Юзера-------------------
 
-let userId;
 api.getInfoUser() 
     .then((result) => {
         console.log(result);
@@ -140,21 +140,21 @@ api.getInfoUser()
     .catch((err) => {console.log(err)});
 //----------------------Запрос Инфы Юзера-------------------
 
-export const deleteCard = new PopupWithSubmit(deleteCardPopup)
+const deleteCard = new PopupWithSubmit(deleteCardPopup)
 deleteCard.setEventListeners()
 
 function cardDeleteHandler(id, element) {
     const newHandler = () => {
-        console.log(id)
+        deleteCard.renderLoading(true)
         api.apiDeleteCard(id)
             .then(() => {
                 deleteCard.deleteCard(element)
                 deleteCard.close()
-        })
+            })
+            .catch((err) => { console.log(err) })
+            .finally(() => deleteCard.renderLoading(false))
     }
     deleteCard.setSubmitHandler(newHandler)
-    console.log(id)
-    // api.apiDeleteCard(id)
     deleteCard.open()
 }   
 
@@ -171,4 +171,5 @@ api.getInitialCards()
         }, cardList) 
         initialSection.renderItems();
     })
+    .catch((err) => {console.log(err)});
 //--------------Создание НАЧАЛЬНХ карточек-------------------

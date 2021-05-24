@@ -22,8 +22,7 @@ export class FormValidator {
 
     _setEventListeners = () => {
         const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-        const saveButton = this._formElement.querySelector(this._submitButtonSelector);
-        
+        const saveButton = this._formElement.querySelector(this._submitButtonSelector);   
         this._setButtonState(inputList, saveButton);
         inputList.forEach(input => {
             if (input.validity.valid) {
@@ -65,8 +64,7 @@ export class FormValidator {
     _showError = ( input, errorMessage) => {
         const error = this._formElement.querySelector(`#${input.id}-error`);
         input.classList.add(this._inputErrorClass);
-        error.textContent = errorMessage;
-        
+        error.textContent = errorMessage;       
     }// показ ошибки валидации 
 
     _hideError = (input) => {

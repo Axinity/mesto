@@ -1,13 +1,10 @@
-
 export default class Api {
     constructor({ address, token }) {
         this._address = address;
         this._token = token;
-        // this._groupID = groupID;
     }
 
     getInitialCards() {
-        console.log(this._address , this._token)
         return fetch(`${this._address}cards`, {
             headers: {
                 authorization: this._token
@@ -19,7 +16,6 @@ export default class Api {
             }
             return Promise.reject(`Ошибка: ${res.status}`);
         })
-            //.then(res => res.json())
     }
     
     getInfoUser() {
@@ -39,7 +35,7 @@ export default class Api {
     sendUserInfo({ name, about }) {
         this._name = name
         this._about = about
-        fetch(`${this._address}users/me`, {
+        return fetch(`${this._address}users/me`, {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
@@ -61,7 +57,7 @@ export default class Api {
     sendNewCard() {
         this._addNewItemName = document.querySelector('.popup__text_name-card')
         this._addNewItemLink = document.querySelector('.popup__text_link-card')
-        fetch(`${this._address}cards`, {
+        return fetch(`${this._address}cards`, {
             method: 'POST',
             headers: {
                 authorization: this._token,
@@ -96,7 +92,6 @@ export default class Api {
     }
 
     likeCard(id) {
-
         return fetch(`${this._address}cards/likes/${id}`, {
            method: 'PUT',
             headers: {
