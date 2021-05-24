@@ -23,7 +23,7 @@ import {
     deleteCardPopup,
     popupAvatarUpdateButton,
     profileAvatar,
-    profileAvatarLink
+    profileAvatarButton
 } from '../scripts/constants.js'
 import '../pages/index.css'
 
@@ -106,7 +106,7 @@ const formSubmitAvatarHandler = (evt) => {
 
 const profileAvatarUpdate = new PopupWithForm(popupAvatarUpdateButton, formSubmitAvatarHandler)
 profileAvatarUpdate.setEventListeners()
-profileAvatar.addEventListener('click', function () {
+profileAvatarButton.addEventListener('click', function () {
     formValidationAvatar.disableSubmitButton();
     profileAvatarUpdate.open()
 })

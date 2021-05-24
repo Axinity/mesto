@@ -17,7 +17,5 @@ export const profileSelectors = {
 export const deleteCardPopup = '.popup_delete-confirm'
 export const popupAvatarUpdateButton = '.popup_avatar'
 export const profileAvatar = document.querySelector('.profile__avatar')
-export const profileAvatarLink = document.querySelector('.popup__text_link-avatar').value
-
-//export const popupDeleteComfirm = document.querySelector('.card-template').content.querySelector('.element__delete-button')
+export const profileAvatarButton = document.querySelector('.profile__avatar-container')
 export const escKeyCode = 27;

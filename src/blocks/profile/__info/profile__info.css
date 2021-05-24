@@ -6,7 +6,7 @@
     "title button"
     "description description";
   align-items: flex-end;
-  margin: auto auto auto 0;
+  margin: auto auto auto 30px;
 }
 
 @media (max-width: 670px) {
