@@ -28,6 +28,10 @@ import {
 import '../pages/index.css'
 let initialSection;
 let userId;
+const api = new Api({
+    address: 'https://mesto.nomoreparties.co/v1/cohort-24/',
+    token: '7b3f69ee-7b91-4649-926c-d71156200cb0'
+})
 
 // -----------------------------Валидация-------------------------
 const formValidationProfile = new FormValidator(validationConfigProfile, formSelectorProfile);
@@ -50,27 +54,25 @@ editButton.addEventListener('click', function() {
     popupUserDesc.value = newInfo.description;
 });  // слушатель открытия и подстановки значение в попап профиля
 
-const formSubmitHandler = (evt) => {
-    evt.preventDefault();
+const formSubmitHandler = () => {
     profileEditPopup.renderLoading(true)
     const info = {
         name: popupUserName.value,
         about: popupUserDesc.value,
-    }
-    userInfo.setUserInfo(info);
+    }   
     api.sendUserInfo(info)
         .then(() => {
+            userInfo.setUserInfo(info);
             profileEditPopup.close()
         })
         .catch((err) => { console.log(err) })
         .finally(() => profileEditPopup.renderLoading(false))
 }  // сабмит кнопки рекатирования профиля
 
-const formSubmitAddHandler = (evt) => { 
-    evt.preventDefault();
+const formSubmitAddHandler = () => { 
     addNewCardPopup.renderLoading(true)
     const card = new Card({ name: popUpImageTitleInput.value, link: popUpImageLinkInput.value }, '.card-template', cardImageClickHandler, cardDeleteHandler, api, userId)
-    api.sendNewCard()
+    api.sendNewCard(card)
         .then(() => {
             initialSection.addNewItem(card.generateNewCard());
             addNewCardPopup.close();
@@ -95,8 +97,7 @@ editButton.addEventListener('click', function () {
     profileEditPopup.open();
 })
 
-const formSubmitAvatarHandler = (evt) => { //сабмит кнопки редактирования аватарки 
-    evt.preventDefault();
+const formSubmitAvatarHandler = () => { //сабмит кнопки редактирования аватарки 
     profileAvatarUpdate.renderLoading(true)
     const avatar = {
         avatar: document.querySelector('.popup__text_link-avatar').value
@@ -124,22 +125,6 @@ function cardImageClickHandler(url, text) {  // изображение и тек
     popupWithImage.open(url, text)
 }
 
-const api = new Api({
-    address: 'https://mesto.nomoreparties.co/v1/cohort-24/',
-    token: '7b3f69ee-7b91-4649-926c-d71156200cb0'
-})
-
-//----------------------Запрос Инфы Юзера-------------------
-
-api.getInfoUser() 
-    .then((result) => {
-        console.log(result);
-        userInfo.setUserInfoOnLoad(result);
-        userId = result._id
-    })
-    .catch((err) => {console.log(err)});
-//----------------------Запрос Инфы Юзера-------------------
-
 const deleteCard = new PopupWithSubmit(deleteCardPopup)
 deleteCard.setEventListeners()
 
@@ -158,12 +143,13 @@ function cardDeleteHandler(id, element) {
     deleteCard.open()
 }   
 
-//--------------Создание НАЧАЛЬНХ карточек-------------------
-api.getInitialCards()
-    .then((result) => {
-        console.log(result);
+//-----------------------Создание начальных карточке и установка инфы юзера-------------------
+Promise.all([api.getInfoUser(), api.getInitialCards()])
+    .then(([userData, cards]) => {
+        userInfo.setUserInfoOnLoad(userData);
+        userId = userData._id;
         initialSection = new Section({
-            items: result,
+            items: cards,
             renderer: (item) => {
                 const card = createCard(item)
                 initialSection.addItem(card.generateCard());
@@ -171,5 +157,5 @@ api.getInitialCards()
         }, cardList) 
         initialSection.renderItems();
     })
-    .catch((err) => {console.log(err)});
-//--------------Создание НАЧАЛЬНХ карточек-------------------
+    .catch((err) => { console.log(err) });
+//-----------------------Создание начальных карточке и установка инфы юзера-------------------
